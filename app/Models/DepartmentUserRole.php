@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Venturecraft\Revisionable\RevisionableTrait;
+
+class DepartmentUserRole extends EloquentModel implements Model
+{
+    use RevisionableTrait, SoftDeletes;
+
+    /**
+     * @var array
+     */
+    protected $guarded = [];
+    /**
+     * @var string[]
+     */
+    protected array $allowed_columns = [
+        'department_id' => 'integer',
+        'user_id' => 'integer',
+        'role_id' => 'integer',
+    ];
+    /**
+     * @var string[]
+     */
+    protected array $filterable_columns = [
+        'id' => 'integer',
+        'department_id' => 'integer',
+        'user_id' => 'integer',
+        'role_id' => 'integer',
+    ];
+    /**
+     * @var array
+     */
+    protected array $validation_rules = [];
+    /**
+     * @var string[]
+     */
+    protected $relationships = '';
+
+    /**
+     * @return BelongsTo
+     */
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedColumns(): array
+    {
+        return $this->allowed_columns;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFilterableColumns(): array
+    {
+        return $this->filterable_columns;
+    }
+
+    /**
+     * @param  Model  $model
+     * @return array
+     */
+    public function getValidationRules(Model $model = null): array
+    {
+        return $this->validation_rules;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRelationships(): string
+    {
+        return $this->relationships;
+    }
+}
